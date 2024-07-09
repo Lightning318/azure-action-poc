@@ -1,12 +1,12 @@
-name: Upload docker image to ACR
-on: workflow_dispatch
+name: Upload-docker-image-to-ACR
+on: [ workflow_dispatch ]
+permissions:
+  contents: read
+  id-token: write
 env:
   REPOSITORY: acrogsdwqr3oofp2
 jobs:
   upload-images:
-    permissions:
-      contents: read
-      id-token: write
     runs-on: ubuntu-latest
     steps: 
       # Checks out the repository this file is in
@@ -19,7 +19,10 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       - name: ACR Login
-        run: az acr login --name ${{ env.REPOSITORY }}
+        uses: azure/cli@v2
+        with: 
+          azcliversion: latest
+          inlineScript: az acr login --name ${{ env.REPOSITORY }}
       - name: Docker load
         run: docker load -i ./images/alpine_3.20.tar
       - name: Docker tag
