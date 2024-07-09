@@ -1,7 +1,7 @@
 param location string = resourceGroup().location
 param repoOrg string = 'Lightning318'
 param repoName string = 'azure-action-poc'
-param repoBranch string = 'main'
+param repoBranch string = 'master'
 
 resource managedId 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
   name: 'pipelineUser'
